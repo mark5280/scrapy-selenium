@@ -6,7 +6,6 @@ from scrapy import signals
 from scrapy.exceptions import NotConfigured
 from scrapy.http import HtmlResponse
 from selenium.webdriver.support.ui import WebDriverWait
-import undetected_chromedriver as uc
 from .http import SeleniumRequest
 
 
@@ -57,8 +56,7 @@ class SeleniumMiddleware:
                 'executable_path': driver_executable_path,
                 f'{driver_name}_options': driver_options
             }
-            #self.driver = driver_klass(**driver_kwargs)
-            self.driver = uc.Chrome(**driver_kwargs)
+            self.driver = driver_klass(**driver_kwargs)
         # remote driver
         elif command_executor is not None:
             from selenium import webdriver
