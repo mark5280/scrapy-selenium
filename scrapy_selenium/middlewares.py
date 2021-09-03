@@ -41,6 +41,7 @@ class SeleniumMiddleware:
 
         driver_options = driver_options_klass()
 
+        '''
         if browser_executable_path:
             driver_options.binary_location = browser_executable_path
         for argument in driver_arguments:
@@ -50,6 +51,7 @@ class SeleniumMiddleware:
             'executable_path': driver_executable_path,
             f'{driver_name}_options': driver_options
         }
+        '''
 
         # locally installed driver
         if driver_executable_path is not None:
@@ -58,12 +60,13 @@ class SeleniumMiddleware:
                 f'{driver_name}_options': driver_options
             }
 
-            options = driver_klass.ChromeOptions()
-            options.add_argument("--headless")
-            options.add_argument("start-maximized")
-            options.add_experimental_option("excludeSwitches", ["enable-automation"])
-            options.add_experimental_option('useAutomationExtension', False)
-            self.driver = driver_klass(options=options)
+            #driver_options = driver_klass.ChromeOptions()
+            driver_options.add_argument("--headless")
+            driver_options.add_argument("start-maximized")
+            driver_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36")
+            driver_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+            driver_options.add_experimental_option('useAutomationExtension', False)
+            self.driver = driver_klass(options=driver_options)
             stealth(self.driver,
                     languages=["en-US", "en"],
                     vendor="Google Inc.",
