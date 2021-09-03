@@ -5,6 +5,7 @@ from importlib import import_module
 from scrapy import signals
 from scrapy.exceptions import NotConfigured
 from scrapy.http import HtmlResponse
+from selenium_stealth import stealth
 from selenium.webdriver.support.ui import WebDriverWait
 from .http import SeleniumRequest
 
@@ -56,7 +57,22 @@ class SeleniumMiddleware:
                 'executable_path': driver_executable_path,
                 f'{driver_name}_options': driver_options
             }
-            self.driver = driver_klass(**driver_kwargs)
+
+            options = driver_klass.ChromeOptions()
+            options.add_argument("start-maximized")
+            options.add_experimental_option("excludeSwitches", ["enable-automation"])
+            options.add_experimental_option('useAutomationExtension', False)
+            self.driver = driver_klass(options=options)
+            stealth(self.driver,
+                    languages=["en-US", "en"],
+                    vendor="Google Inc.",
+                    platform="Win32",
+                    webgl_vendor="Intel Inc.",
+                    renderer="Intel Iris OpenGL Engine",
+                    fix_hairline=True,
+                    )
+            # self.driver = driver_klass(**driver_kwargs)
+
         # remote driver
         elif command_executor is not None:
             from selenium import webdriver
