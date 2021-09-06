@@ -53,17 +53,22 @@ class SeleniumMiddleware:
         }
         '''
 
+        for argument in driver_arguments:
+            driver_options.add_argument(argument)
+
         # locally installed driver
         if driver_executable_path is not None:
+            '''
             driver_kwargs = {
                 'executable_path': driver_executable_path,
                 f'{driver_name}_options': driver_options
             }
+            '''
 
             #driver_options = driver_klass.ChromeOptions()
-            driver_options.add_argument("--headless")
-            driver_options.add_argument("start-maximized")
-            driver_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36")
+            #driver_options.add_argument("--headless")
+            #driver_options.add_argument("start-maximized")
+            #driver_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36")
             driver_options.add_experimental_option("excludeSwitches", ["enable-automation"])
             driver_options.add_experimental_option('useAutomationExtension', False)
             self.driver = driver_klass(options=driver_options)
